@@ -27,7 +27,7 @@ services:
   node:
     container_name: 'JIVG-APINODE-SOCKETS'
     build:
-      context: /home/ubuntu/JIVG-Node-Sockets-Chat
+      context: /home/ubuntu/JIVG-Node-Sockets
       dockerfile: Dockerfile
     restart: always
     ports:
