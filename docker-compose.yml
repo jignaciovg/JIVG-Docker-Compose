@@ -1,0 +1,41 @@
+version: '3.3'
+
+services:
+  reverse-proxy:
+    image: jwilder/nginx-proxy:alpine
+    container_name: 'Reverse-Proxy'
+    restart: always
+    ports:
+      - '80:80'
+    volumes:
+      - certs:/etc/nginx/certs:ro
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  angular:
+    container_name: 'JIVG-CHAT-ANGULAR'
+    build:
+      context: /home/ubuntu/JIVG-Angular-Sockets
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+        - 9090:80
+    environment:
+      - VIRTUAL_HOST=chatweb.midominio.com
+
+  node:
+    container_name: 'JIVG-APINODE-SOCKETS'
+    build:
+      context: /home/ubuntu/JIVG-Node-Sockets-Chat
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 3003:3003
+    environment:
+      - VIRTUAL_HOST=apisockets.midominio.com
+
+volumes:
+    certs:
+    html:
+    vhostd:
